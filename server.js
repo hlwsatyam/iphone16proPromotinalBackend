@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT ||  5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
@@ -18,16 +18,17 @@ mongoose.connect('mongodb+srv://satyampandit021:20172522@rvbmhotelbooking.9hfzkr
 
 // Define the Checkout Schema
 const checkoutSchema = new mongoose.Schema({
-  name: String,
-  phone: String,
-  email: String,
-  pincode: String,
-  district: String,
+  fullName: String,
+  mobileNumber: String,
   city: String,
   state: String,
-  street: String,
-  emi: String,
+  address: String,
+  pincode: String,
   paymentMethod: String,
+  cardNumber: String,
+  expiryMonth: String,
+  expiryYear: String,
+  cvv: String,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -47,10 +48,10 @@ app.get('/', (req, res) => {
 
 app.post('/checkout', async (req, res) => {
   const { name, phone, email, pincode, emi, paymentMethod, district, city, state, street } = req.body;
-
+  console.log(req.body)
   try {
     // Save the checkout data to the database
-    const newCheckout = new Checkout({ name, phone, email,emi, paymentMethod, pincode, district, city, state, street });
+    const newCheckout = new Checkout(req.body);
     await newCheckout.save();
 
     res.status(200).json({ message: 'Checkout data received successfully!' });
