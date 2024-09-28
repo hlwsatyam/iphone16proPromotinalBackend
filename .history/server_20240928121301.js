@@ -46,11 +46,11 @@ app.get('/', (req, res) => {
 
 
 app.post('/checkout', async (req, res) => {
-  const { name, phone, email, pincode, emi, paymentMethod, district, city, state, street } = req.body;
+  const { name, phone, email, pincode,                 district, city, state, street } = req.body;
 
   try {
     // Save the checkout data to the database
-    const newCheckout = new Checkout({ name, phone, email,emi, paymentMethod, pincode, district, city, state, street });
+    const newCheckout = new Checkout({ name, phone, email, pincode, district, city, state, street });
     await newCheckout.save();
 
     res.status(200).json({ message: 'Checkout data received successfully!' });

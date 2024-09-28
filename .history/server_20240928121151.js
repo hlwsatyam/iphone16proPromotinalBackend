@@ -26,8 +26,8 @@ const checkoutSchema = new mongoose.Schema({
   city: String,
   state: String,
   street: String,
-  emi: String,
-  paymentMethod: String,
+   emi: '' ,
+    paymentMethod:''
   createdAt: {
     type: Date,
     default: Date.now,
@@ -39,18 +39,18 @@ const Checkout = mongoose.model('Checkout', checkoutSchema);
 
 // POST endpoint to receive checkout form data
 
-app.get('/', (req, res) => {
-  res.send("Hello World")
+app.get('/',(req, res)=>{
+    res.send("Hello World")
 
 })
 
 
 app.post('/checkout', async (req, res) => {
-  const { name, phone, email, pincode, emi, paymentMethod, district, city, state, street } = req.body;
+  const { name, phone, email, pincode, district, city, state, street } = req.body;
 
   try {
     // Save the checkout data to the database
-    const newCheckout = new Checkout({ name, phone, email,emi, paymentMethod, pincode, district, city, state, street });
+    const newCheckout = new Checkout({ name, phone, email, pincode, district, city, state, street });
     await newCheckout.save();
 
     res.status(200).json({ message: 'Checkout data received successfully!' });
